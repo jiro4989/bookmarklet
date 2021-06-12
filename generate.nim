@@ -5,6 +5,7 @@ type Bookmarklet = object
 
 var bookmarklet = initTable[string, Bookmarklet]()
 
+# ブックマークレットの元スクリプトとタイトルを読み取る
 for file in walkFiles("src/*/*"):
   let dir = file.parentDir
   if not bookmarklet.hasKey(dir):
@@ -19,13 +20,14 @@ for file in walkFiles("src/*/*"):
     let script = "javascript:(function(){" & content & "})()"
     bookmarklet[dir].content = script.replace(")", "\\)")
 
+# markdown用のリスト文字列に変換
 var links: seq[string]
 for k, v in bookmarklet:
   let link = "* [" & v.title & "](" & v.content & ")"
   links.add link
-
 let adocLinks = links.join("\n")
 
+# 特定のマーカーの後にリストを差し込む
 var strm = newFileStream("README.md", fmWrite)
 const marker = "<!-- START -->"
 for line in "README.tmpl.md".lines:
