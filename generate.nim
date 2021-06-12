@@ -17,7 +17,7 @@ for file in walkFiles("src/*/*"):
   else:
     let content = file.readFile.replace("\n", "").strip
     let script = "javascript:(function(){" & content & "})()"
-    bookmarklet[dir].content = script
+    bookmarklet[dir].content = script.replace(")", "\\)")
 
 var links: seq[string]
 for k, v in bookmarklet:
