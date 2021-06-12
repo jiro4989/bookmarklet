@@ -21,14 +21,14 @@ for file in walkFiles("src/*/*"):
 
 var links: seq[string]
 for k, v in bookmarklet:
-  let link = "* " & v.content & "[" & v.title & "]"
+  let link = "* [" & v.title & "](" & v.content & ")"
   links.add link
 
 let adocLinks = links.join("\n")
 
-var strm = newFileStream("README.adoc", fmWrite)
-const marker = "// START //"
-for line in "README.tmpl.adoc".lines:
+var strm = newFileStream("README.md", fmWrite)
+const marker = "<!-- START -->"
+for line in "README.tmpl.md".lines:
   if line != marker:
     strm.writeLine line
   else:
